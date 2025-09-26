@@ -1,0 +1,75 @@
+#include "image_receiver.h"
+#include <iostream>
+#include <fstream>
+#include <csignal>
+#include <atomic>
+#include <thread>
+#include <chrono>
+
+std::atomic<bool> running(true);
+
+void signalHandler(int signal) {
+    running = false;
+}
+
+int main(int argc, char* argv[]) {
+    // Set signal handler
+    std::signal(SIGINT, signalHandler);
+    
+    // Configuration
+    ReceiverConfig config;
+    config.udp_port = 5008;
+    config.jpeg_quality = 90;
+    
+    // Create receiver
+    ImageReceiver receiver(config);
+    
+    // Frame counter
+    std::atomic<uint64_t> frame_count(0);
+    
+    // Set callback
+    receiver.setFrameCallback([&frame_count](const uint8_t* data, 
+                                              size_t size, 
+                                              const ImageReceiver::RTPTimestamp& timestamp) {
+        uint64_t count = ++frame_count;
+        
+        // Display progress and save frame every 100 frames
+        if (count % 100 == 0) {
+            std::cout << "Processed " << count << " frames, "
+                     << "JPEG size: " << size << " bytes, "
+                     << "PTS: " << timestamp.pts_ms << " ms, "
+                     << "RTP TS: " << timestamp.rtp_timestamp << ", "
+                     << "SSRC: 0x" << std::hex << timestamp.ssrc << std::dec << std::endl;
+            
+            // Save sample frame
+            std::string filename = "frame_" + std::to_string(count) + ".jpg";
+            std::ofstream file(filename, std::ios::binary);
+            file.write(reinterpret_cast<const char*>(data), size);
+            std::cout << "Saved sample: " << filename << std::endl;
+        }
+    });
+    
+    // Start processing
+    if (!receiver.start()) {
+        std::cerr << "Failed to start receiver" << std::endl;
+        return 1;
+    }
+    
+    std::cout << "Processing started. Press Ctrl+C to stop." << std::endl;
+    
+    // Main loop
+    while (running) {
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+        
+        // Display statistics
+        auto stats = receiver.getStatistics();
+        std::cout << "FPS: " << stats.average_fps 
+                 << ", Dropped: " << stats.frames_dropped << std::endl;
+    }
+    
+    // Stop processing
+    receiver.stop();
+    std::cout << "Processing stopped." << std::endl;
+    
+    return 0;
+}

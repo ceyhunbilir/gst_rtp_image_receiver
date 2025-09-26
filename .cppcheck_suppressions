@@ -29,7 +29,7 @@ noExplicitConstructor
 noValidConfiguration
 obstacle_cruise_planner
 passedByValue
-preprocessorErrorDirective
+prereceiverErrorDirective
 redundantAssignment
 redundantContinue
 redundantIfRemove
