@@ -48,15 +48,14 @@ public:
         config.height = height;
         
         receiver_ = std::make_unique<ImageReceiver>(config);
-        
+                
+        if (publish_raw_) {
+            raw_pub_ = image_transport::create_publisher(this, "~/image_raw");
+        }
+
         if (publish_compressed_) {
             compressed_pub_ = this->create_publisher<sensor_msgs::msg::CompressedImage>(
                 "~/image_raw/compressed", 10);
-        }
-        
-        if (publish_raw_) {
-            image_transport::ImageTransport it(shared_from_this());
-            raw_pub_ = it.advertise("~/image_raw", 10);
         }
         
         camera_info_pub_ = this->create_publisher<sensor_msgs::msg::CameraInfo>(
