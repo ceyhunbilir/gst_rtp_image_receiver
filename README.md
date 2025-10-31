@@ -117,17 +117,13 @@ gst-launch-1.0 videotestsrc ! \
 
 ### View the output
 
-Use `image_view` to subscribe to the published topics and display the images.
+Use `rqt_image_view` to subscribe to the published topics and display the images.
 
-```
-# View compressed images
-ros2 run image_view image_view --ros-args \
-    -r image/compressed:=/rtp_receiver/gst_rtp_image_receiver/image_compressed
+- View compressed images
 
-# View raw images (if enabled)
-ros2 run image_view image_view --ros-args \
-    -r image:=/rtp_receiver/gst_rtp_image_receiver/image_raw
-```
+    ```
+    ros2 run rqt_image_view rqt_image_view
+    ```
 
 ### Monitor topics
 
