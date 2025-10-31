@@ -11,10 +11,10 @@
   <arg name="publish_compressed" default="true" description="Publish compressed images"/>
   <arg name="frame_id" default="camera" description="Frame ID for published images"/>
   <arg name="namespace" default="rtp_receiver" description="Namespace for the node"/>
-  <arg name="camera_info_url" default="package://rtp_image_receiver/config/camera_info.yaml" description="URL for camera calibration file"/>
+  <arg name="camera_info_url" default="package://gst_rtp_image_receiver/config/camera_info.yaml" description="URL for camera calibration file"/>
   
   <!-- RTP Image Receiver Node -->
-  <node pkg="rtp_image_receiver" exec="rtp_image_receiver_node" 
+  <node pkg="gst_rtp_image_receiver" exec="rtp_image_receiver_node" 
         name="rtp_image_receiver" namespace="$(var namespace)" output="screen">
     <param name="udp_port" value="$(var udp_port)"/>
     <param name="jpeg_quality" value="$(var jpeg_quality)"/>

@@ -75,10 +75,10 @@ You can run the node directly from the command line, with or without parameters.
 
 ```
 # Basic usage
-ros2 run gst_rtp_image_receiver gst_rtp_image_receiver_node
+ros2 run gst_rtp_image_receiver rtp_image_receiver_node
 
 # With custom parameters
-ros2 run gst_rtp_image_receiver gst_rtp_image_receiver_node --ros-args \
+ros2 run gst_rtp_image_receiver rtp_image_receiver_node --ros-args \
     -p udp_port:=5008 \
     -p jpeg_quality:=95 \
     -p publish_raw:=true
@@ -88,16 +88,20 @@ ros2 run gst_rtp_image_receiver gst_rtp_image_receiver_node --ros-args \
 
 The node can also be launched using ROS2 launch files for easier configuration.
 
-```
-# Example with a Python launch file
-ros2 launch gst_rtp_image_receiver gst_rtp_image_receiver.launch.py
+- Example with a Python launch file
 
-# With launch file arguments
-ros2 launch gst_rtp_image_receiver gst_rtp_image_receiver.launch.py \
-    udp_port:=5008 \
-    publish_raw:=true \
-    namespace:=my_camera
-```
+    ```
+    ros2 launch gst_rtp_image_receiver rtp_image_receiver.launch.py
+    ```
+
+- With launch file arguments
+
+    ```
+    ros2 launch gst_rtp_image_receiver rtp_image_receiver.launch.py \
+        udp_port:=5008 \
+        publish_raw:=true \
+        namespace:=my_camera
+    ```
 
 ## 🔬 Testing
 
@@ -167,7 +171,7 @@ Set the GST_DEBUG environment variable to get verbose GStreamer output.
 
 ```
 export GST_DEBUG=3
-ros2 run gst_rtp_image_receiver gst_rtp_image_receiver_node
+ros2 run gst_rtp_image_receiver rtp_image_receiver_node
 ```
 
 ### Check node info

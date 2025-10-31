@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>rtp_image_receiver</name>
+  <name>gst_rtp_image_receiver</name>
   <version>1.0.0</version>
   <description>ROS2 node for real-time image processing from RTP/UDP streams</description>
   <maintainer email="your_email@example.com">Your Name</maintainer>

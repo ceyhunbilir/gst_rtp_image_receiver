@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(rtp_image_receiver)
+project(gst_rtp_image_receiver)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)

@@ -58,12 +58,12 @@ def generate_launch_description():
         ),
         DeclareLaunchArgument(
             'camera_info_url',
-            default_value=['package://rtp_image_receiver/config/camera_info.yaml'],
+            default_value=['package://gst_rtp_image_receiver/config/camera_info.yaml'],
             description='URL for camera calibration file (file:// or package://)'
         ),
         
         Node(
-            package='rtp_image_receiver',
+            package='gst_rtp_image_receiver',
             executable='rtp_image_receiver_node',
             name='rtp_image_receiver',
             namespace=LaunchConfiguration('namespace'),
