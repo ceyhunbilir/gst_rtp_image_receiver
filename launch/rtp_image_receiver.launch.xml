@@ -5,8 +5,8 @@
   <arg name="jpeg_quality" default="80" description="JPEG compression quality (0-100)"/>
   <arg name="buffer_size" default="8388608" description="Buffer size in bytes"/>
   <arg name="max_buffers" default="3" description="Maximum number of buffers"/>
-  <arg name="width" default="2880" description="Video width in pixels"/>
-  <arg name="height" default="1860" description="Video height in pixels"/>
+  <arg name="width" default="1920" description="Video width in pixels"/>
+  <arg name="height" default="1280" description="Video height in pixels"/>
   <arg name="publish_raw" default="false" description="Publish raw images"/>
   <arg name="publish_compressed" default="true" description="Publish compressed images"/>
   <arg name="frame_id" default="camera" description="Frame ID for published images"/>
