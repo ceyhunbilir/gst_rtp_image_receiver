@@ -17,8 +17,16 @@ void ImageReceiver::stop() {
     pImpl->stop();
 }
 
-void ImageReceiver::setFrameCallback(FrameCallback callback) {
-    pImpl->setFrameCallback(callback);
+void ImageReceiver::setRawFrameCallback(FrameCallback callback) {
+    pImpl->setRawFrameCallback(callback);
+}
+
+void ImageReceiver::setJpegFrameCallback(FrameCallback callback) {
+    pImpl->setJpegFrameCallback(callback);
+}
+
+void ImageReceiver::setCombinedFrameCallback(CombinedFrameCallback callback) {
+    pImpl->setCombinedFrameCallback(callback);
 }
 
 ImageReceiver::Statistics ImageReceiver::getStatistics() const {

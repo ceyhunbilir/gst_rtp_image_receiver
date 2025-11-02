@@ -88,9 +88,9 @@ rclcpp_components_register_node(
     EXECUTABLE rtp_image_receiver_node
 )
 
-# Original demo executable
-add_executable(image_receiver_demo examples/main.cpp)
-target_link_libraries(image_receiver_demo imagereceiver)
+# # Original demo executable
+# add_executable(image_receiver_demo examples/main.cpp)
+# target_link_libraries(image_receiver_demo imagereceiver)
 
 # Installation
 install(TARGETS imagereceiver
@@ -111,7 +111,7 @@ install(TARGETS
 
 install(TARGETS
     rtp_image_receiver_node
-    image_receiver_demo
+    # image_receiver_demo
     DESTINATION lib/${PROJECT_NAME}
 )
 

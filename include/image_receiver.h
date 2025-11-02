@@ -6,6 +6,12 @@
 #include <cstdint>
 #include <cstddef>
 
+enum class SinkMode {
+    RAW_ONLY,
+    JPEG_ONLY,
+    RAW_AND_JPEG
+};
+
 enum class HardwareType {
     VAAPI_INTEL,
     VAAPI_AMD,
@@ -21,6 +27,7 @@ struct ReceiverConfig {
     int max_buffers = 3;
     int width = 1920;           // Video width
     int height = 1280;          // Video height
+    SinkMode mode = SinkMode::RAW_AND_JPEG;
 };
 
 class ImageReceiver {
@@ -35,7 +42,14 @@ public:
         uint16_t fractions;          // Fractions of nanoseconds
     };
     
-    using FrameCallback = std::function<void(const uint8_t* data, size_t size, const RTPTimestamp& timestamp)>;
+    // use for RAW_ONLY and JPEG_ONLY
+    using FrameCallback = std::function<void(const uint8_t* data, size_t size, const RTPTimestamp& rtp_ts)>;
+    
+    // use for CombinedFrameCallback
+    using CombinedFrameCallback = std::function<void(
+        const uint8_t* raw_data, size_t raw_size, 
+        const uint8_t* jpeg_data, size_t jpeg_size, 
+        const RTPTimestamp& rtp_ts)>;
     
     ImageReceiver(const ReceiverConfig& config);
     ~ImageReceiver();
@@ -49,13 +63,17 @@ public:
     void stop();
     
     // Set callback for processed frames
-    void setFrameCallback(FrameCallback callback);
+    void setRawFrameCallback(FrameCallback callback);
+    void setJpegFrameCallback(FrameCallback callback);
+    void setCombinedFrameCallback(CombinedFrameCallback callback);
     
     // Statistics
     struct Statistics {
-        uint64_t frames_processed;
-        uint64_t frames_dropped;
-        double average_fps;
+        uint64_t frames_processed_raw = 0;
+        uint64_t frames_processed_jpeg = 0;
+        uint64_t frames_dropped_raw = 0;
+        uint64_t frames_dropped_jpeg = 0;
+        double average_fps_raw = 0;
     };
     Statistics getStatistics() const;
     

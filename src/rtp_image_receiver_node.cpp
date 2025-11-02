@@ -16,6 +16,7 @@ namespace rtp_image_receiver {
 class RtpImageReceiverNode : public rclcpp::Node {
 public:
     explicit RtpImageReceiverNode(const rclcpp::NodeOptions& options) 
+        // get options
         : Node("rtp_image_receiver_node", options) {
         this->declare_parameter("udp_port", 5008);
         this->declare_parameter("jpeg_quality", 90);
@@ -39,6 +40,7 @@ public:
         frame_id_ = this->get_parameter("frame_id").as_string();
         std::string camera_info_url = this->get_parameter("camera_info_url").as_string();
         
+        // create config
         ReceiverConfig config;
         config.udp_port = udp_port;
         config.jpeg_quality = jpeg_quality;
@@ -46,18 +48,33 @@ public:
         config.max_buffers = max_buffers;
         config.width = width;
         config.height = height;
+
+        // sink mode selection
+        if (publish_raw_ && publish_compressed_){
+            config.mode = SinkMode::RAW_AND_JPEG;
+        }
+        else if(publish_raw_){
+            config.mode = SinkMode::RAW_ONLY;
+        }
+        else if(publish_compressed_){
+            config.mode = SinkMode::JPEG_ONLY;
+        }
+        else{
+            RCLCPP_ERROR(this->get_logger(), "Both publish_raw and publish_compressed are false. No data will be received. Defaulting to RAW_ONLY.");
+            config.mode = SinkMode::RAW_ONLY;
+        }
         
+        // create gstreamer receiver
         receiver_ = std::make_unique<ImageReceiver>(config);
                 
+        // create publishers
         if (publish_raw_) {
             raw_pub_ = image_transport::create_publisher(this, "~/image_raw");
         }
-
         if (publish_compressed_) {
             compressed_pub_ = this->create_publisher<sensor_msgs::msg::CompressedImage>(
                 "~/image_raw/compressed", 10);
         }
-        
         camera_info_pub_ = this->create_publisher<sensor_msgs::msg::CameraInfo>(
             "~/camera_info", 10);
         
@@ -70,20 +87,39 @@ public:
             RCLCPP_WARN(this->get_logger(), "No camera_info_url provided, using default camera info");
         }
         
+        // create statistics publisher
         stats_timer_ = this->create_wall_timer(
             std::chrono::seconds(5),
             std::bind(&RtpImageReceiverNode::publishStatistics, this));
         
-        receiver_->setFrameCallback(
-            std::bind(&RtpImageReceiverNode::frameCallback, this,
-                     std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
-        
+        // setup receiver node callback
+        if (config.mode == SinkMode::RAW_AND_JPEG) {
+            RCLCPP_INFO(this->get_logger(), "Set RAW_AND_JPEG Callback");
+            receiver_->setCombinedFrameCallback(
+                std::bind(&RtpImageReceiverNode::combinedCallback, this,
+                         std::placeholders::_1, std::placeholders::_2, 
+                         std::placeholders::_3, std::placeholders::_4,
+                         std::placeholders::_5));
+        } else if (config.mode == SinkMode::RAW_ONLY) {
+            RCLCPP_INFO(this->get_logger(), "Set RAW Callback");
+            receiver_->setRawFrameCallback(
+                std::bind(&RtpImageReceiverNode::rawCallback, this,
+                         std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+        } else { // JPEG_ONLY
+            RCLCPP_INFO(this->get_logger(), "Set JPEG Callback");
+            receiver_->setJpegFrameCallback(
+                std::bind(&RtpImageReceiverNode::jpegCallback, this,
+                         std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+        }
+
+        // launch gstreamer callback
         if (!receiver_->start()) {
             RCLCPP_ERROR(this->get_logger(), "Failed to start image receiver");
             rclcpp::shutdown();
             return;
         }
         
+        // display Node information
         RCLCPP_INFO(this->get_logger(), "RTP Image Receiver Node started on UDP port %d", udp_port);
         RCLCPP_INFO(this->get_logger(), "Resolution: %dx%d", width, height);
         RCLCPP_INFO(this->get_logger(), "Publishing: raw=%s, compressed=%s", 
@@ -98,71 +134,100 @@ public:
     }
     
 private:
-    void frameCallback(const uint8_t* data, size_t size, const ImageReceiver::RTPTimestamp& timestamp) {
-        auto now = this->now();
-        
+    std_msgs::msg::Header createHeader(const ImageReceiver::RTPTimestamp& timestamp) {
+        std_msgs::msg::Header header;
+        header.frame_id = frame_id_;
+        // Use the extracted RTP timestamp if available
+        if (timestamp.seconds > 0) {
+            header.stamp.sec = timestamp.seconds;
+            header.stamp.nanosec = timestamp.nanoseconds;
+        } else {
+            // Otherwise, use the current ROS time
+            header.stamp = this->now();
+        }
+        return header;
+    }
+
+    // Raw image publishing helper
+    void publishRaw(const uint8_t* data, size_t size, const std_msgs::msg::Header& header) {
+        if (publish_raw_ && raw_pub_.getNumSubscribers() > 0) { 
+            cv::Mat bgr_image(config_.height, config_.width, CV_8UC3, (void*)data);
+
+            sensor_msgs::msg::Image::SharedPtr image_msg = 
+                cv_bridge::CvImage(header, "bgr8", bgr_image).toImageMsg();
+            RCLCPP_INFO(this->get_logger(), "Publish Image topic          : %09u.%09u", header.stamp.sec, header.stamp.nanosec);
+
+            raw_pub_.publish(image_msg);
+        }
+    }
+
+    // Compressed image publishing helper
+    void publishCompressed(const uint8_t* data, size_t size, const std_msgs::msg::Header& header) {
         if (publish_compressed_ && compressed_pub_->get_subscription_count() > 0) {
             auto compressed_msg = std::make_unique<sensor_msgs::msg::CompressedImage>();
-            compressed_msg->header.stamp = now;
-            compressed_msg->header.frame_id = frame_id_;
-            
-            // Add RTP timestamp info to header
-            // Use the extracted timestamp if available
-            if (timestamp.seconds > 0) {
-                compressed_msg->header.stamp.sec = timestamp.seconds;
-                compressed_msg->header.stamp.nanosec = timestamp.nanoseconds;
-            }
+            compressed_msg->header = header;
             compressed_msg->format = "jpeg";
             compressed_msg->data.assign(data, data + size);
             
             compressed_pub_->publish(std::move(compressed_msg));
+            RCLCPP_INFO(this->get_logger(), "Publish CompressedImage topic: %09u.%09u", header.stamp.sec, header.stamp.nanosec);
         }
-        
-        if (publish_raw_ && raw_pub_.getNumSubscribers() > 0) {
-            std::vector<uint8_t> jpeg_data(data, data + size);
-            cv::Mat compressed(1, jpeg_data.size(), CV_8UC1, jpeg_data.data());
-            cv::Mat image = cv::imdecode(compressed, cv::IMREAD_COLOR);
-            
-            if (!image.empty()) {
-                sensor_msgs::msg::Image::SharedPtr image_msg = 
-                    cv_bridge::CvImage(std_msgs::msg::Header(), "bgr8", image).toImageMsg();
-                image_msg->header.stamp = now;
-                image_msg->header.frame_id = frame_id_;
-                
-                // Add RTP timestamp info to header
-                if (timestamp.seconds > 0) {
-                    image_msg->header.stamp.sec = timestamp.seconds;
-                    image_msg->header.stamp.nanosec = timestamp.nanoseconds;
-                }
-                raw_pub_.publish(image_msg);
-            }
-        }
-        
+    }
+
+    // CameraInfo publishing helper
+    void publishCameraInfo(const std_msgs::msg::Header& header) {
         if (camera_info_pub_->get_subscription_count() > 0) {
             auto camera_info_msg = camera_info_manager_->getCameraInfo();
-            camera_info_msg.header.stamp = now;
-            camera_info_msg.header.frame_id = frame_id_;
-            
-            // Add RTP timestamp info to header if available
-            if (timestamp.seconds > 0) {
-                camera_info_msg.header.stamp.sec = timestamp.seconds;
-                camera_info_msg.header.stamp.nanosec = timestamp.nanoseconds;
-            }
-            
+            camera_info_msg.header = header;
             camera_info_pub_->publish(camera_info_msg);
         }
+    }
+
+    // Callback for JPEG_ONLY mode
+    void jpegCallback(const uint8_t* data, size_t size, const ImageReceiver::RTPTimestamp& timestamp) {
+        std_msgs::msg::Header header = createHeader(timestamp);
+        
+        publishCompressed(data, size, header);
+        publishCameraInfo(header);
         
         frame_count_++;
     }
+
+    // Callback for RAW_ONLY mode
+    void rawCallback(const uint8_t* data, size_t size, const ImageReceiver::RTPTimestamp& timestamp) {
+        std_msgs::msg::Header header = createHeader(timestamp);
+
+        publishRaw(data, size, header);
+        publishCameraInfo(header);
+        
+        frame_count_++;
+    }
+
+    // Callback for RAW_AND_JPEG mode
+    void combinedCallback(const uint8_t* raw_data, size_t raw_size, 
+                          const uint8_t* jpeg_data, size_t jpeg_size, 
+                          const ImageReceiver::RTPTimestamp& timestamp) {
+        std_msgs::msg::Header header = createHeader(timestamp);
+        
+        // (Publish both data streams, which are synchronized by PTS within ImageReceiver::Impl)
+        publishRaw(raw_data, raw_size, header);
+        publishCompressed(jpeg_data, jpeg_size, header);
+        publishCameraInfo(header);
+
+        frame_count_++;
+    }
     
+    // gstreamer statistics
     void publishStatistics() {
         auto stats = receiver_->getStatistics();
         RCLCPP_INFO(this->get_logger(), 
-                   "Stats: Frames=%lu, Dropped=%lu, FPS=%.2f",
-                   stats.frames_processed, stats.frames_dropped,
-                   stats.average_fps);
+            "Stats : Frames(Raw)=%lu, Dropped(Raw)=%lu, Frames(Jpeg)=%lu, Dropped(Jpeg)=%lu, FPS=%.2f",
+            stats.frames_processed_raw, stats.frames_dropped_raw,
+            stats.frames_processed_jpeg, stats.frames_dropped_jpeg,
+            stats.average_fps_raw);
     }
     
+    // member arguments
     std::unique_ptr<ImageReceiver> receiver_;
     rclcpp::Publisher<sensor_msgs::msg::CompressedImage>::SharedPtr compressed_pub_;
     rclcpp::Publisher<sensor_msgs::msg::CameraInfo>::SharedPtr camera_info_pub_;
@@ -170,6 +235,7 @@ private:
     rclcpp::TimerBase::SharedPtr stats_timer_;
     std::shared_ptr<camera_info_manager::CameraInfoManager> camera_info_manager_;
     
+    ReceiverConfig config_;
     bool publish_raw_;
     bool publish_compressed_;
     std::string frame_id_;
