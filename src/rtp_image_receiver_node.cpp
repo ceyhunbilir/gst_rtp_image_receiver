@@ -6,7 +6,7 @@
 #include <std_msgs/msg/header.hpp>
 #include <image_transport/image_transport.hpp>
 #include <camera_info_manager/camera_info_manager.hpp>
-#include <cv_bridge/cv_bridge.h>
+#include <cv_bridge/cv_bridge.hpp>
 #include "image_receiver.h"
 #include <opencv2/opencv.hpp>
 #include <chrono>
