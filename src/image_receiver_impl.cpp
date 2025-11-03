@@ -199,9 +199,16 @@ private:
             "identity name=rtpidentity ! "
             "rtpvrawdepay ";
 
-        // raw branch
+        // raw pipelne
         std::string raw_pipeline;
-        raw_pipeline = "videoconvert ! video/x-raw,format=BGR";
+        if (hw_type_ == HardwareType::NVIDIA_DESKTOP || hw_type_ == HardwareType::NVIDIA_JETSON) {
+            // Use nvvidconv for hardware-accelerated YUV -> BGRx conversion
+            // and then videoconvert for BGRx -> BGR.
+            raw_pipeline = "nvvidconv ! video/x-raw,format=BGRx ! videoconvert ! video/x-raw,format=BGR";
+        } else {
+            // Default to software conversion
+            raw_pipeline = "videoconvert ! video/x-raw,format=BGR";
+        }
 
         // jpeg pipeline        
         std::string jpeg_pipeline;
