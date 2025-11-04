@@ -6,10 +6,17 @@
 #include <std_msgs/msg/header.hpp>
 #include <image_transport/image_transport.hpp>
 #include <camera_info_manager/camera_info_manager.hpp>
-#include <cv_bridge/cv_bridge.hpp>
 #include "image_receiver.h"
 #include <opencv2/opencv.hpp>
 #include <chrono>
+
+#if RCL_VERSION_MAJOR <= 6
+  #include <cv_bridge/cv_bridge.h>
+#else
+  #include <cv_bridge/cv_bridge.hpp>
+#endif
+  
+
 
 namespace rtp_image_receiver {
 
