@@ -104,11 +104,31 @@ The node can also be launched using ROS1 launch files for easier configuration.
         namespace:=my_camera
     ```
 
-- Multi-camera setup
+- Multi-camera setup (supports up to 16 cameras)
 
     ```
+    # Launch with default settings (cameras 1-4 enabled, 5-16 disabled)
     roslaunch gst_rtp_image_receiver multi_camera.launch
+
+    # Enable specific cameras
+    roslaunch gst_rtp_image_receiver multi_camera.launch \
+        enable_camera1:=true \
+        enable_camera2:=true \
+        enable_camera5:=true \
+        enable_camera8:=true
+
+    # Launch all 16 cameras
+    roslaunch gst_rtp_image_receiver multi_camera.launch \
+        enable_camera1:=true enable_camera2:=true enable_camera3:=true enable_camera4:=true \
+        enable_camera5:=true enable_camera6:=true enable_camera7:=true enable_camera8:=true \
+        enable_camera9:=true enable_camera10:=true enable_camera11:=true enable_camera12:=true \
+        enable_camera13:=true enable_camera14:=true enable_camera15:=true enable_camera16:=true
     ```
+
+    **Camera Configuration:**
+    - Camera 1-4: Enabled by default, UDP ports 5004-5007
+    - Camera 5-16: Disabled by default, UDP ports 5008-5019
+    - Each camera can be enabled/disabled independently using `enable_cameraN:=true/false`
 
 ## 🔬 Testing
 
