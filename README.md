@@ -21,10 +21,13 @@ Real-time performance metrics and debugging information.
 
 | Parameter | Type | Default | Description |
 |---|---|---|---|
+| `camera_type`         | `string`| `"C1"`      | Camera type: `"C1"` (1920x1280) or `"C2"` (2880x1860). Auto-configures resolution and buffer size. |
 | `udp_port`            | `int`   | `5008`      | UDP port for the RTP stream. |
 | `jpeg_quality`        | `int`   | `90`        | JPEG compression quality (`0`-`100`). |
-| `buffer_size`         | `int`   | `8388608`   | Buffer size for the UDP socket in bytes. |
+| `buffer_size`         | `int`   | Auto        | Buffer size in bytes. Auto-calculated: C1=4,915,200 (1920×1280×2), C2=10,713,600 (2880×1860×2). |
 | `max_buffers`         | `int`   | `3`         | Maximum number of buffers to use. |
+| `width`               | `int`   | Auto        | Video width in pixels. Auto-set based on camera_type: C1=1920, C2=2880. |
+| `height`              | `int`   | Auto        | Video height in pixels. Auto-set based on camera_type: C1=1280, C2=1860. |
 | `publish_raw`         | `bool`  | `false`     | If `true`, publishes the `~/image_raw` topic. |
 | `publish_compressed`  | `bool`  | `true`      | If `true`, publishes the `~/image_compressed` topic. |
 | `frame_id`            | `string`| `"camera"`  | Frame ID for published images. |
@@ -89,16 +92,24 @@ rosrun gst_rtp_image_receiver rtp_image_receiver_node _udp_port:=5008 _jpeg_qual
 
 The node can also be launched using ROS1 launch files for easier configuration.
 
-- Basic launch file usage
+- Basic launch file usage (C1 camera by default)
 
     ```
     roslaunch gst_rtp_image_receiver rtp_image_receiver.launch
     ```
 
-- With launch file arguments
+- Launch with C2 camera type
+
+    ```
+    # C2 camera: 2880x1860 resolution, buffer_size automatically set to 10,713,600
+    roslaunch gst_rtp_image_receiver rtp_image_receiver.launch camera_type:=C2
+    ```
+
+- With additional launch file arguments
 
     ```
     roslaunch gst_rtp_image_receiver rtp_image_receiver.launch \
+        camera_type:=C1 \
         udp_port:=5008 \
         publish_raw:=true \
         namespace:=my_camera

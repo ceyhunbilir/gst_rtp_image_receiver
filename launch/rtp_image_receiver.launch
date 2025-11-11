@@ -1,17 +1,22 @@
 <?xml version="1.0"?>
 <launch>
   <!-- Launch arguments -->
+  <arg name="camera_type" default="C1" doc="Camera type: C1 (1920x1280) or C2 (2880x1860)"/>
   <arg name="udp_port" default="5004" doc="UDP port for RTP stream"/>
   <arg name="jpeg_quality" default="80" doc="JPEG compression quality (0-100)"/>
-  <arg name="buffer_size" default="8388608" doc="Buffer size in bytes"/>
   <arg name="max_buffers" default="3" doc="Maximum number of buffers"/>
-  <arg name="width" default="1920" doc="Video width in pixels"/>
-  <arg name="height" default="1280" doc="Video height in pixels"/>
   <arg name="publish_raw" default="false" doc="Publish raw images"/>
   <arg name="publish_compressed" default="true" doc="Publish compressed images"/>
   <arg name="frame_id" default="camera" doc="Frame ID for published images"/>
   <arg name="namespace" default="rtp_receiver" doc="Namespace for the node"/>
   <arg name="camera_info_url" default="package://gst_rtp_image_receiver/config/camera_info.yaml" doc="URL for camera calibration file"/>
+
+  <!-- Camera-specific parameters based on camera_type -->
+  <!-- C1: 1920x1280, buffer = 1920 x 1280 x 2 = 4,915,200 -->
+  <!-- C2: 2880x1860, buffer = 2880 x 1860 x 2 = 10,713,600 -->
+  <arg name="width" default="$(eval 1920 if arg('camera_type') == 'C1' else 2880)" doc="Video width in pixels"/>
+  <arg name="height" default="$(eval 1280 if arg('camera_type') == 'C1' else 1860)" doc="Video height in pixels"/>
+  <arg name="buffer_size" default="$(eval 4915200 if arg('camera_type') == 'C1' else 10713600)" doc="Buffer size in bytes (auto-calculated from camera type)"/>
 
   <!-- RTP Image Receiver Node -->
   <group ns="$(arg namespace)">
