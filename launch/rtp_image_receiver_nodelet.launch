@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Nodelet manager arguments -->
+  <arg name="manager_name" default="rtp_receiver_manager" doc="Nodelet manager name"/>
+  <arg name="manager_threads" default="4" doc="Number of threads for nodelet manager"/>
+
+  <!-- Camera type: C1 (1920x1280) or C2 (2880x1860) -->
+  <arg name="camera_type" default="C1" doc="Camera type: C1 (1920x1280) or C2 (2880x1860)"/>
+
+  <!-- RTP/UDP parameters -->
+  <arg name="udp_port" default="5008" doc="UDP port for receiving RTP stream"/>
+  <arg name="width" default="$(eval 1920 if arg('camera_type') == 'C1' else 2880)" doc="Image width"/>
+  <arg name="height" default="$(eval 1280 if arg('camera_type') == 'C1' else 1860)" doc="Image height"/>
+  <arg name="buffer_size" default="$(eval 4915200 if arg('camera_type') == 'C1' else 10713600)"
+       doc="UDP receive buffer size in bytes (width * height * 2)"/>
+  <arg name="max_buffers" default="3" doc="Maximum number of buffers in GStreamer queue"/>
+
+  <!-- Publishing options -->
+  <arg name="publish_raw" default="true" doc="Publish raw BGR images"/>
+  <arg name="publish_compressed" default="true" doc="Publish JPEG compressed images"/>
+  <arg name="jpeg_quality" default="90" doc="JPEG compression quality (1-100)"/>
+
+  <!-- GStreamer decoder options -->
+  <arg name="decoder" default="auto" doc="Decoder type: auto, vaapi, nvdec, jetson"/>
+
+  <!-- Camera calibration -->
+  <arg name="camera_info_url" default="" doc="Camera calibration URL (e.g., file:///path/to/calibration.yaml)"/>
+  <arg name="frame_id" default="camera" doc="Frame ID for published messages"/>
+
+  <!-- Statistics -->
+  <arg name="stats_period" default="5.0" doc="Period in seconds for publishing statistics"/>
+
+  <!-- Start nodelet manager -->
+  <node pkg="nodelet" type="nodelet" name="$(arg manager_name)" args="manager" output="screen">
+    <param name="num_worker_threads" value="$(arg manager_threads)"/>
+  </node>
+
+  <!-- Load RTP Image Receiver nodelet -->
+  <node pkg="nodelet" type="nodelet" name="rtp_image_receiver_nodelet"
+        args="load rtp_image_receiver/RtpReceiverNodelet $(arg manager_name)" output="screen">
+
+    <!-- RTP/UDP parameters -->
+    <param name="udp_port" value="$(arg udp_port)"/>
+    <param name="width" value="$(arg width)"/>
+    <param name="height" value="$(arg height)"/>
+    <param name="buffer_size" value="$(arg buffer_size)"/>
+    <param name="max_buffers" value="$(arg max_buffers)"/>
+
+    <!-- Publishing options -->
+    <param name="publish_raw" value="$(arg publish_raw)"/>
+    <param name="publish_compressed" value="$(arg publish_compressed)"/>
+    <param name="jpeg_quality" value="$(arg jpeg_quality)"/>
+
+    <!-- Decoder options -->
+    <param name="decoder" value="$(arg decoder)"/>
+
+    <!-- Camera info -->
+    <param name="camera_info_url" value="$(arg camera_info_url)"/>
+    <param name="frame_id" value="$(arg frame_id)"/>
+
+    <!-- Statistics -->
+    <param name="stats_period" value="$(arg stats_period)"/>
+
+  </node>
+
+</launch>

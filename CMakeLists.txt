@@ -18,6 +18,8 @@ find_package(catkin REQUIRED COMPONENTS
   cv_bridge
   image_transport
   camera_info_manager
+  nodelet
+  pluginlib
 )
 find_package(OpenCV REQUIRED)
 
@@ -32,7 +34,7 @@ pkg_check_modules(GST REQUIRED
 # Catkin package declaration
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES imagereceiver
+  LIBRARIES imagereceiver rtp_receiver_nodelet
   CATKIN_DEPENDS
     roscpp
     sensor_msgs
@@ -40,6 +42,8 @@ catkin_package(
     cv_bridge
     image_transport
     camera_info_manager
+    nodelet
+    pluginlib
   DEPENDS OpenCV
 )
 
@@ -90,12 +94,35 @@ target_link_libraries(rtp_image_receiver_node
     ${OpenCV_LIBS}
 )
 
+# Nodelet library
+add_library(rtp_receiver_nodelet
+    src/rtp_receiver_nodelet.cpp
+    src/rtp_image_receiver.cpp
+)
+
+target_include_directories(rtp_receiver_nodelet
+    PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<INSTALL_INTERFACE:include>
+        ${catkin_INCLUDE_DIRS}
+    PRIVATE
+        ${GST_INCLUDE_DIRS}
+        ${OpenCV_INCLUDE_DIRS}
+)
+
+target_link_libraries(rtp_receiver_nodelet
+    imagereceiver
+    ${catkin_LIBRARIES}
+    ${GST_LIBRARIES}
+    ${OpenCV_LIBS}
+)
+
 # # Original demo executable
 # add_executable(image_receiver_demo examples/main.cpp)
 # target_link_libraries(image_receiver_demo imagereceiver)
 
 # Installation
-install(TARGETS imagereceiver
+install(TARGETS imagereceiver rtp_receiver_nodelet
     ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
     LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
     RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION}
@@ -107,6 +134,11 @@ install(DIRECTORY include/
 
 install(TARGETS rtp_image_receiver_node
     RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+# Install nodelet plugin description
+install(FILES nodelet_plugins.xml
+    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 
 # Install launch files

@@ -1,0 +1,10 @@
+<library path="lib/librtp_receiver_nodelet">
+  <class name="rtp_image_receiver/RtpReceiverNodelet"
+         type="rtp_image_receiver::RtpReceiverNodelet"
+         base_class_type="nodelet::Nodelet">
+    <description>
+      RTP Image Receiver Nodelet for receiving and publishing RTP video streams
+      via GStreamer as ROS topics in both raw and compressed formats.
+    </description>
+  </class>
+</library>

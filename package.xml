@@ -15,6 +15,8 @@
   <build_depend>image_transport</build_depend>
   <build_depend>compressed_image_transport</build_depend>
   <build_depend>camera_info_manager</build_depend>
+  <build_depend>nodelet</build_depend>
+  <build_depend>pluginlib</build_depend>
 
   <exec_depend>roscpp</exec_depend>
   <exec_depend>sensor_msgs</exec_depend>
@@ -23,4 +25,10 @@
   <exec_depend>image_transport</exec_depend>
   <exec_depend>compressed_image_transport</exec_depend>
   <exec_depend>camera_info_manager</exec_depend>
+  <exec_depend>nodelet</exec_depend>
+  <exec_depend>pluginlib</exec_depend>
+
+  <export>
+    <nodelet plugin="${prefix}/nodelet_plugins.xml" />
+  </export>
 </package>

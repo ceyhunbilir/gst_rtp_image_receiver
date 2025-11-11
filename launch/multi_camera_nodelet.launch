@@ -1,0 +1,225 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Nodelet manager for all cameras -->
+  <arg name="manager_name" default="multi_camera_manager" doc="Nodelet manager name"/>
+  <arg name="manager_threads" default="16" doc="Number of threads for nodelet manager"/>
+
+  <!-- Camera type: C1 (1920x1280) or C2 (2880x1860) -->
+  <arg name="camera_type" default="C1" doc="Camera type: C1 (1920x1280) or C2 (2880x1860)"/>
+
+  <!-- Enable/disable individual cameras -->
+  <arg name="enable_camera1" default="true" doc="Enable camera 1"/>
+  <arg name="enable_camera2" default="true" doc="Enable camera 2"/>
+  <arg name="enable_camera3" default="true" doc="Enable camera 3"/>
+  <arg name="enable_camera4" default="true" doc="Enable camera 4"/>
+  <arg name="enable_camera5" default="false" doc="Enable camera 5"/>
+  <arg name="enable_camera6" default="false" doc="Enable camera 6"/>
+  <arg name="enable_camera7" default="false" doc="Enable camera 7"/>
+  <arg name="enable_camera8" default="false" doc="Enable camera 8"/>
+  <arg name="enable_camera9" default="false" doc="Enable camera 9"/>
+  <arg name="enable_camera10" default="false" doc="Enable camera 10"/>
+  <arg name="enable_camera11" default="false" doc="Enable camera 11"/>
+  <arg name="enable_camera12" default="false" doc="Enable camera 12"/>
+  <arg name="enable_camera13" default="false" doc="Enable camera 13"/>
+  <arg name="enable_camera14" default="false" doc="Enable camera 14"/>
+  <arg name="enable_camera15" default="false" doc="Enable camera 15"/>
+  <arg name="enable_camera16" default="false" doc="Enable camera 16"/>
+
+  <!-- Start nodelet manager -->
+  <node pkg="nodelet" type="nodelet" name="$(arg manager_name)" args="manager" output="screen">
+    <param name="num_worker_threads" value="$(arg manager_threads)"/>
+  </node>
+
+  <!-- Camera 1 -->
+  <group if="$(arg enable_camera1)">
+    <node pkg="nodelet" type="nodelet" name="camera1_nodelet" ns="camera1"
+          args="load rtp_image_receiver/RtpReceiverNodelet /$(arg manager_name)" output="screen">
+      <param name="udp_port" value="5004"/>
+      <param name="width" value="$(eval 1920 if arg('camera_type') == 'C1' else 2880)"/>
+      <param name="height" value="$(eval 1280 if arg('camera_type') == 'C1' else 1860)"/>
+      <param name="buffer_size" value="$(eval 4915200 if arg('camera_type') == 'C1' else 10713600)"/>
+      <param name="frame_id" value="camera1"/>
+    </node>
+  </group>
+
+  <!-- Camera 2 -->
+  <group if="$(arg enable_camera2)">
+    <node pkg="nodelet" type="nodelet" name="camera2_nodelet" ns="camera2"
+          args="load rtp_image_receiver/RtpReceiverNodelet /$(arg manager_name)" output="screen">
+      <param name="udp_port" value="5005"/>
+      <param name="width" value="$(eval 1920 if arg('camera_type') == 'C1' else 2880)"/>
+      <param name="height" value="$(eval 1280 if arg('camera_type') == 'C1' else 1860)"/>
+      <param name="buffer_size" value="$(eval 4915200 if arg('camera_type') == 'C1' else 10713600)"/>
+      <param name="frame_id" value="camera2"/>
+    </node>
+  </group>
+
+  <!-- Camera 3 -->
+  <group if="$(arg enable_camera3)">
+    <node pkg="nodelet" type="nodelet" name="camera3_nodelet" ns="camera3"
+          args="load rtp_image_receiver/RtpReceiverNodelet /$(arg manager_name)" output="screen">
+      <param name="udp_port" value="5006"/>
+      <param name="width" value="$(eval 1920 if arg('camera_type') == 'C1' else 2880)"/>
+      <param name="height" value="$(eval 1280 if arg('camera_type') == 'C1' else 1860)"/>
+      <param name="buffer_size" value="$(eval 4915200 if arg('camera_type') == 'C1' else 10713600)"/>
+      <param name="frame_id" value="camera3"/>
+    </node>
+  </group>
+
+  <!-- Camera 4 -->
+  <group if="$(arg enable_camera4)">
+    <node pkg="nodelet" type="nodelet" name="camera4_nodelet" ns="camera4"
+          args="load rtp_image_receiver/RtpReceiverNodelet /$(arg manager_name)" output="screen">
+      <param name="udp_port" value="5007"/>
+      <param name="width" value="$(eval 1920 if arg('camera_type') == 'C1' else 2880)"/>
+      <param name="height" value="$(eval 1280 if arg('camera_type') == 'C1' else 1860)"/>
+      <param name="buffer_size" value="$(eval 4915200 if arg('camera_type') == 'C1' else 10713600)"/>
+      <param name="frame_id" value="camera4"/>
+    </node>
+  </group>
+
+  <!-- Camera 5 -->
+  <group if="$(arg enable_camera5)">
+    <node pkg="nodelet" type="nodelet" name="camera5_nodelet" ns="camera5"
+          args="load rtp_image_receiver/RtpReceiverNodelet /$(arg manager_name)" output="screen">
+      <param name="udp_port" value="5008"/>
+      <param name="width" value="$(eval 1920 if arg('camera_type') == 'C1' else 2880)"/>
+      <param name="height" value="$(eval 1280 if arg('camera_type') == 'C1' else 1860)"/>
+      <param name="buffer_size" value="$(eval 4915200 if arg('camera_type') == 'C1' else 10713600)"/>
+      <param name="frame_id" value="camera5"/>
+    </node>
+  </group>
+
+  <!-- Camera 6 -->
+  <group if="$(arg enable_camera6)">
+    <node pkg="nodelet" type="nodelet" name="camera6_nodelet" ns="camera6"
+          args="load rtp_image_receiver/RtpReceiverNodelet /$(arg manager_name)" output="screen">
+      <param name="udp_port" value="5009"/>
+      <param name="width" value="$(eval 1920 if arg('camera_type') == 'C1' else 2880)"/>
+      <param name="height" value="$(eval 1280 if arg('camera_type') == 'C1' else 1860)"/>
+      <param name="buffer_size" value="$(eval 4915200 if arg('camera_type') == 'C1' else 10713600)"/>
+      <param name="frame_id" value="camera6"/>
+    </node>
+  </group>
+
+  <!-- Camera 7 -->
+  <group if="$(arg enable_camera7)">
+    <node pkg="nodelet" type="nodelet" name="camera7_nodelet" ns="camera7"
+          args="load rtp_image_receiver/RtpReceiverNodelet /$(arg manager_name)" output="screen">
+      <param name="udp_port" value="5010"/>
+      <param name="width" value="$(eval 1920 if arg('camera_type') == 'C1' else 2880)"/>
+      <param name="height" value="$(eval 1280 if arg('camera_type') == 'C1' else 1860)"/>
+      <param name="buffer_size" value="$(eval 4915200 if arg('camera_type') == 'C1' else 10713600)"/>
+      <param name="frame_id" value="camera7"/>
+    </node>
+  </group>
+
+  <!-- Camera 8 -->
+  <group if="$(arg enable_camera8)">
+    <node pkg="nodelet" type="nodelet" name="camera8_nodelet" ns="camera8"
+          args="load rtp_image_receiver/RtpReceiverNodelet /$(arg manager_name)" output="screen">
+      <param name="udp_port" value="5011"/>
+      <param name="width" value="$(eval 1920 if arg('camera_type') == 'C1' else 2880)"/>
+      <param name="height" value="$(eval 1280 if arg('camera_type') == 'C1' else 1860)"/>
+      <param name="buffer_size" value="$(eval 4915200 if arg('camera_type') == 'C1' else 10713600)"/>
+      <param name="frame_id" value="camera8"/>
+    </node>
+  </group>
+
+  <!-- Camera 9 -->
+  <group if="$(arg enable_camera9)">
+    <node pkg="nodelet" type="nodelet" name="camera9_nodelet" ns="camera9"
+          args="load rtp_image_receiver/RtpReceiverNodelet /$(arg manager_name)" output="screen">
+      <param name="udp_port" value="5012"/>
+      <param name="width" value="$(eval 1920 if arg('camera_type') == 'C1' else 2880)"/>
+      <param name="height" value="$(eval 1280 if arg('camera_type') == 'C1' else 1860)"/>
+      <param name="buffer_size" value="$(eval 4915200 if arg('camera_type') == 'C1' else 10713600)"/>
+      <param name="frame_id" value="camera9"/>
+    </node>
+  </group>
+
+  <!-- Camera 10 -->
+  <group if="$(arg enable_camera10)">
+    <node pkg="nodelet" type="nodelet" name="camera10_nodelet" ns="camera10"
+          args="load rtp_image_receiver/RtpReceiverNodelet /$(arg manager_name)" output="screen">
+      <param name="udp_port" value="5013"/>
+      <param name="width" value="$(eval 1920 if arg('camera_type') == 'C1' else 2880)"/>
+      <param name="height" value="$(eval 1280 if arg('camera_type') == 'C1' else 1860)"/>
+      <param name="buffer_size" value="$(eval 4915200 if arg('camera_type') == 'C1' else 10713600)"/>
+      <param name="frame_id" value="camera10"/>
+    </node>
+  </group>
+
+  <!-- Camera 11 -->
+  <group if="$(arg enable_camera11)">
+    <node pkg="nodelet" type="nodelet" name="camera11_nodelet" ns="camera11"
+          args="load rtp_image_receiver/RtpReceiverNodelet /$(arg manager_name)" output="screen">
+      <param name="udp_port" value="5014"/>
+      <param name="width" value="$(eval 1920 if arg('camera_type') == 'C1' else 2880)"/>
+      <param name="height" value="$(eval 1280 if arg('camera_type') == 'C1' else 1860)"/>
+      <param name="buffer_size" value="$(eval 4915200 if arg('camera_type') == 'C1' else 10713600)"/>
+      <param name="frame_id" value="camera11"/>
+    </node>
+  </group>
+
+  <!-- Camera 12 -->
+  <group if="$(arg enable_camera12)">
+    <node pkg="nodelet" type="nodelet" name="camera12_nodelet" ns="camera12"
+          args="load rtp_image_receiver/RtpReceiverNodelet /$(arg manager_name)" output="screen">
+      <param name="udp_port" value="5015"/>
+      <param name="width" value="$(eval 1920 if arg('camera_type') == 'C1' else 2880)"/>
+      <param name="height" value="$(eval 1280 if arg('camera_type') == 'C1' else 1860)"/>
+      <param name="buffer_size" value="$(eval 4915200 if arg('camera_type') == 'C1' else 10713600)"/>
+      <param name="frame_id" value="camera12"/>
+    </node>
+  </group>
+
+  <!-- Camera 13 -->
+  <group if="$(arg enable_camera13)">
+    <node pkg="nodelet" type="nodelet" name="camera13_nodelet" ns="camera13"
+          args="load rtp_image_receiver/RtpReceiverNodelet /$(arg manager_name)" output="screen">
+      <param name="udp_port" value="5016"/>
+      <param name="width" value="$(eval 1920 if arg('camera_type') == 'C1' else 2880)"/>
+      <param name="height" value="$(eval 1280 if arg('camera_type') == 'C1' else 1860)"/>
+      <param name="buffer_size" value="$(eval 4915200 if arg('camera_type') == 'C1' else 10713600)"/>
+      <param name="frame_id" value="camera13"/>
+    </node>
+  </group>
+
+  <!-- Camera 14 -->
+  <group if="$(arg enable_camera14)">
+    <node pkg="nodelet" type="nodelet" name="camera14_nodelet" ns="camera14"
+          args="load rtp_image_receiver/RtpReceiverNodelet /$(arg manager_name)" output="screen">
+      <param name="udp_port" value="5017"/>
+      <param name="width" value="$(eval 1920 if arg('camera_type') == 'C1' else 2880)"/>
+      <param name="height" value="$(eval 1280 if arg('camera_type') == 'C1' else 1860)"/>
+      <param name="buffer_size" value="$(eval 4915200 if arg('camera_type') == 'C1' else 10713600)"/>
+      <param name="frame_id" value="camera14"/>
+    </node>
+  </group>
+
+  <!-- Camera 15 -->
+  <group if="$(arg enable_camera15)">
+    <node pkg="nodelet" type="nodelet" name="camera15_nodelet" ns="camera15"
+          args="load rtp_image_receiver/RtpReceiverNodelet /$(arg manager_name)" output="screen">
+      <param name="udp_port" value="5018"/>
+      <param name="width" value="$(eval 1920 if arg('camera_type') == 'C1' else 2880)"/>
+      <param name="height" value="$(eval 1280 if arg('camera_type') == 'C1' else 1860)"/>
+      <param name="buffer_size" value="$(eval 4915200 if arg('camera_type') == 'C1' else 10713600)"/>
+      <param name="frame_id" value="camera15"/>
+    </node>
+  </group>
+
+  <!-- Camera 16 -->
+  <group if="$(arg enable_camera16)">
+    <node pkg="nodelet" type="nodelet" name="camera16_nodelet" ns="camera16"
+          args="load rtp_image_receiver/RtpReceiverNodelet /$(arg manager_name)" output="screen">
+      <param name="udp_port" value="5019"/>
+      <param name="width" value="$(eval 1920 if arg('camera_type') == 'C1' else 2880)"/>
+      <param name="height" value="$(eval 1280 if arg('camera_type') == 'C1' else 1860)"/>
+      <param name="buffer_size" value="$(eval 4915200 if arg('camera_type') == 'C1' else 10713600)"/>
+      <param name="frame_id" value="camera16"/>
+    </node>
+  </group>
+
+</launch>
