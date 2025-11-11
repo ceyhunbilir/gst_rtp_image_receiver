@@ -3,15 +3,15 @@
   <!-- Multi-camera launch file for up to 16 RTP image receivers -->
 
   <!-- Enable/Disable arguments for each camera -->
-  <arg name="enable_camera1" default="true" doc="Enable camera 1"/>
-  <arg name="enable_camera2" default="true" doc="Enable camera 2"/>
-  <arg name="enable_camera3" default="true" doc="Enable camera 3"/>
-  <arg name="enable_camera4" default="true" doc="Enable camera 4"/>
-  <arg name="enable_camera5" default="false" doc="Enable camera 5"/>
-  <arg name="enable_camera6" default="false" doc="Enable camera 6"/>
-  <arg name="enable_camera7" default="false" doc="Enable camera 7"/>
-  <arg name="enable_camera8" default="false" doc="Enable camera 8"/>
-  <arg name="enable_camera9" default="false" doc="Enable camera 9"/>
+  <arg name="enable_camera1"  default="true"  doc="Enable camera 1"/>
+  <arg name="enable_camera2"  default="true"  doc="Enable camera 2"/>
+  <arg name="enable_camera3"  default="true"  doc="Enable camera 3"/>
+  <arg name="enable_camera4"  default="true"  doc="Enable camera 4"/>
+  <arg name="enable_camera5"  default="false" doc="Enable camera 5"/>
+  <arg name="enable_camera6"  default="false" doc="Enable camera 6"/>
+  <arg name="enable_camera7"  default="false" doc="Enable camera 7"/>
+  <arg name="enable_camera8"  default="false" doc="Enable camera 8"/>
+  <arg name="enable_camera9"  default="false" doc="Enable camera 9"/>
   <arg name="enable_camera10" default="false" doc="Enable camera 10"/>
   <arg name="enable_camera11" default="false" doc="Enable camera 11"/>
   <arg name="enable_camera12" default="false" doc="Enable camera 12"/>
