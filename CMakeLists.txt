@@ -70,6 +70,7 @@ target_compile_options(imagereceiver PRIVATE ${GST_CFLAGS_OTHER})
 # ROS1 Node executable
 add_executable(rtp_image_receiver_node
     src/rtp_image_receiver_node.cpp
+    src/rtp_image_receiver.cpp
 )
 
 target_include_directories(rtp_image_receiver_node
