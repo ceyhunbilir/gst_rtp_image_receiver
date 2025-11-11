@@ -28,8 +28,8 @@
     <arg name="width" value="1920"/>
     <arg name="height" value="1280"/>
     <arg name="jpeg_quality" value="90"/>
-    <arg name="publish_raw" value="false"/>
-    <arg name="publish_compressed" value="true"/>
+    <arg name="publish_raw" value="true"/>
+    <arg name="publish_compressed" value="false"/>
   </include>
 
   <!-- Camera 2 -->
@@ -40,8 +40,8 @@
     <arg name="width" value="1920"/>
     <arg name="height" value="1280"/>
     <arg name="jpeg_quality" value="90"/>
-    <arg name="publish_raw" value="false"/>
-    <arg name="publish_compressed" value="true"/>
+    <arg name="publish_raw" value="true"/>
+    <arg name="publish_compressed" value="false"/>
   </include>
 
   <!-- Camera 3 -->
@@ -52,8 +52,8 @@
     <arg name="width" value="1920"/>
     <arg name="height" value="1280"/>
     <arg name="jpeg_quality" value="90"/>
-    <arg name="publish_raw" value="false"/>
-    <arg name="publish_compressed" value="true"/>
+    <arg name="publish_raw" value="true"/>
+    <arg name="publish_compressed" value="false"/>
   </include>
 
   <!-- Camera 4 -->
@@ -64,8 +64,8 @@
     <arg name="width" value="1920"/>
     <arg name="height" value="1280"/>
     <arg name="jpeg_quality" value="90"/>
-    <arg name="publish_raw" value="false"/>
-    <arg name="publish_compressed" value="true"/>
+    <arg name="publish_raw" value="true"/>
+    <arg name="publish_compressed" value="false"/>
   </include>
 
   <!-- Camera 5 -->
@@ -76,8 +76,8 @@
     <arg name="width" value="1920"/>
     <arg name="height" value="1280"/>
     <arg name="jpeg_quality" value="90"/>
-    <arg name="publish_raw" value="false"/>
-    <arg name="publish_compressed" value="true"/>
+    <arg name="publish_raw" value="true"/>
+    <arg name="publish_compressed" value="false"/>
   </include>
 
   <!-- Camera 6 -->
@@ -88,8 +88,8 @@
     <arg name="width" value="1920"/>
     <arg name="height" value="1280"/>
     <arg name="jpeg_quality" value="90"/>
-    <arg name="publish_raw" value="false"/>
-    <arg name="publish_compressed" value="true"/>
+    <arg name="publish_raw" value="true"/>
+    <arg name="publish_compressed" value="false"/>
   </include>
 
   <!-- Camera 7 -->
@@ -100,8 +100,8 @@
     <arg name="width" value="1920"/>
     <arg name="height" value="1280"/>
     <arg name="jpeg_quality" value="90"/>
-    <arg name="publish_raw" value="false"/>
-    <arg name="publish_compressed" value="true"/>
+    <arg name="publish_raw" value="true"/>
+    <arg name="publish_compressed" value="false"/>
   </include>
 
   <!-- Camera 8 -->
@@ -112,8 +112,8 @@
     <arg name="width" value="1920"/>
     <arg name="height" value="1280"/>
     <arg name="jpeg_quality" value="90"/>
-    <arg name="publish_raw" value="false"/>
-    <arg name="publish_compressed" value="true"/>
+    <arg name="publish_raw" value="true"/>
+    <arg name="publish_compressed" value="false"/>
   </include>
 
   <!-- Camera 9 -->
@@ -124,8 +124,8 @@
     <arg name="width" value="1920"/>
     <arg name="height" value="1280"/>
     <arg name="jpeg_quality" value="90"/>
-    <arg name="publish_raw" value="false"/>
-    <arg name="publish_compressed" value="true"/>
+    <arg name="publish_raw" value="true"/>
+    <arg name="publish_compressed" value="false"/>
   </include>
 
   <!-- Camera 10 -->
@@ -136,8 +136,8 @@
     <arg name="width" value="1920"/>
     <arg name="height" value="1280"/>
     <arg name="jpeg_quality" value="90"/>
-    <arg name="publish_raw" value="false"/>
-    <arg name="publish_compressed" value="true"/>
+    <arg name="publish_raw" value="true"/>
+    <arg name="publish_compressed" value="false"/>
   </include>
 
   <!-- Camera 11 -->
@@ -148,8 +148,8 @@
     <arg name="width" value="1920"/>
     <arg name="height" value="1280"/>
     <arg name="jpeg_quality" value="90"/>
-    <arg name="publish_raw" value="false"/>
-    <arg name="publish_compressed" value="true"/>
+    <arg name="publish_raw" value="true"/>
+    <arg name="publish_compressed" value="false"/>
   </include>
 
   <!-- Camera 12 -->
@@ -160,8 +160,8 @@
     <arg name="width" value="1920"/>
     <arg name="height" value="1280"/>
     <arg name="jpeg_quality" value="90"/>
-    <arg name="publish_raw" value="false"/>
-    <arg name="publish_compressed" value="true"/>
+    <arg name="publish_raw" value="true"/>
+    <arg name="publish_compressed" value="false"/>
   </include>
 
   <!-- Camera 13 -->
@@ -172,8 +172,8 @@
     <arg name="width" value="1920"/>
     <arg name="height" value="1280"/>
     <arg name="jpeg_quality" value="90"/>
-    <arg name="publish_raw" value="false"/>
-    <arg name="publish_compressed" value="true"/>
+    <arg name="publish_raw" value="true"/>
+    <arg name="publish_compressed" value="false"/>
   </include>
 
   <!-- Camera 14 -->
@@ -184,8 +184,8 @@
     <arg name="width" value="1920"/>
     <arg name="height" value="1280"/>
     <arg name="jpeg_quality" value="90"/>
-    <arg name="publish_raw" value="false"/>
-    <arg name="publish_compressed" value="true"/>
+    <arg name="publish_raw" value="true"/>
+    <arg name="publish_compressed" value="false"/>
   </include>
 
   <!-- Camera 15 -->
@@ -196,8 +196,8 @@
     <arg name="width" value="1920"/>
     <arg name="height" value="1280"/>
     <arg name="jpeg_quality" value="90"/>
-    <arg name="publish_raw" value="false"/>
-    <arg name="publish_compressed" value="true"/>
+    <arg name="publish_raw" value="true"/>
+    <arg name="publish_compressed" value="false"/>
   </include>
 
   <!-- Camera 16 -->
@@ -208,7 +208,7 @@
     <arg name="width" value="1920"/>
     <arg name="height" value="1280"/>
     <arg name="jpeg_quality" value="90"/>
-    <arg name="publish_raw" value="false"/>
-    <arg name="publish_compressed" value="true"/>
+    <arg name="publish_raw" value="true"/>
+    <arg name="publish_compressed" value="false"/>
   </include>
 </launch>

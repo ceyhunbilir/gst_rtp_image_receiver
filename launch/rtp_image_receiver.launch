@@ -5,8 +5,8 @@
   <arg name="udp_port" default="5004" doc="UDP port for RTP stream"/>
   <arg name="jpeg_quality" default="80" doc="JPEG compression quality (0-100)"/>
   <arg name="max_buffers" default="3" doc="Maximum number of buffers"/>
-  <arg name="publish_raw" default="false" doc="Publish raw images"/>
-  <arg name="publish_compressed" default="true" doc="Publish compressed images"/>
+  <arg name="publish_raw" default="true" doc="Publish raw images"/>
+  <arg name="publish_compressed" default="false" doc="Publish compressed images"/>
   <arg name="frame_id" default="camera" doc="Frame ID for published images"/>
   <arg name="namespace" default="rtp_receiver" doc="Namespace for the node"/>
   <arg name="camera_info_url" default="package://gst_rtp_image_receiver/config/camera_info.yaml" doc="URL for camera calibration file"/>
