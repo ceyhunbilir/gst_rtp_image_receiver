@@ -10,23 +10,37 @@ if(EXISTS "/etc/nv_tegra_release")
     add_definitions(-DJETSON_PLATFORM)
 endif()
 
-# Find ROS2 packages
-find_package(ament_cmake REQUIRED)
-find_package(rclcpp REQUIRED)
-find_package(rclcpp_components REQUIRED)
-find_package(sensor_msgs REQUIRED)
-find_package(std_msgs REQUIRED)
-find_package(cv_bridge REQUIRED)
-find_package(image_transport REQUIRED)
-find_package(camera_info_manager REQUIRED)
+# Find ROS1 packages
+find_package(catkin REQUIRED COMPONENTS
+  roscpp
+  sensor_msgs
+  std_msgs
+  cv_bridge
+  image_transport
+  camera_info_manager
+)
 find_package(OpenCV REQUIRED)
 
 # Dependencies
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(GST REQUIRED 
+pkg_check_modules(GST REQUIRED
     gstreamer-1.0>=1.14
     gstreamer-app-1.0>=1.14
     gstreamer-rtp-1.0>=1.14
+)
+
+# Catkin package declaration
+catkin_package(
+  INCLUDE_DIRS include
+  LIBRARIES imagereceiver
+  CATKIN_DEPENDS
+    roscpp
+    sensor_msgs
+    std_msgs
+    cv_bridge
+    image_transport
+    camera_info_manager
+  DEPENDS OpenCV
 )
 
 # Source files
@@ -37,10 +51,11 @@ set(SOURCES
 # Library creation
 add_library(imagereceiver SHARED ${SOURCES})
 
-target_include_directories(imagereceiver 
-    PUBLIC 
+target_include_directories(imagereceiver
+    PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>
+        ${catkin_INCLUDE_DIRS}
     PRIVATE
         ${GST_INCLUDE_DIRS}
 )
@@ -52,40 +67,26 @@ target_link_libraries(imagereceiver
 
 target_compile_options(imagereceiver PRIVATE ${GST_CFLAGS_OTHER})
 
-# ROS2 Component library
-add_library(rtp_image_receiver_component SHARED
+# ROS1 Node executable
+add_executable(rtp_image_receiver_node
     src/rtp_image_receiver_node.cpp
 )
 
-target_include_directories(rtp_image_receiver_component
+target_include_directories(rtp_image_receiver_node
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>
+        ${catkin_INCLUDE_DIRS}
     PRIVATE
         ${GST_INCLUDE_DIRS}
         ${OpenCV_INCLUDE_DIRS}
 )
 
-ament_target_dependencies(rtp_image_receiver_component
-    rclcpp
-    rclcpp_components
-    sensor_msgs
-    std_msgs
-    cv_bridge
-    image_transport
-    camera_info_manager
-)
-
-target_link_libraries(rtp_image_receiver_component
+target_link_libraries(rtp_image_receiver_node
     imagereceiver
+    ${catkin_LIBRARIES}
     ${GST_LIBRARIES}
     ${OpenCV_LIBS}
-)
-
-rclcpp_components_register_node(
-    rtp_image_receiver_component
-    PLUGIN "rtp_image_receiver::RtpImageReceiverNode"
-    EXECUTABLE rtp_image_receiver_node
 )
 
 # # Original demo executable
@@ -94,41 +95,26 @@ rclcpp_components_register_node(
 
 # Installation
 install(TARGETS imagereceiver
-    LIBRARY DESTINATION lib
-    ARCHIVE DESTINATION lib
+    ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+    LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+    RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION}
 )
 
 install(DIRECTORY include/
-    DESTINATION include
+    DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
 )
 
-install(TARGETS
-    rtp_image_receiver_component
-    RUNTIME DESTINATION bin
-    LIBRARY DESTINATION lib
-    ARCHIVE DESTINATION lib
-)
-
-install(TARGETS
-    rtp_image_receiver_node
-    # image_receiver_demo
-    DESTINATION lib/${PROJECT_NAME}
+install(TARGETS rtp_image_receiver_node
+    RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
 # Install launch files
-install(DIRECTORY launch
-    DESTINATION share/${PROJECT_NAME}
+install(DIRECTORY launch/
+    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch
+    PATTERN "*.py" EXCLUDE
 )
 
 # Install config files
-install(DIRECTORY config
-    DESTINATION share/${PROJECT_NAME}
+install(DIRECTORY config/
+    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/config
 )
-
-# Tests
-if(BUILD_TESTING)
-    find_package(ament_lint_auto REQUIRED)
-    ament_lint_auto_find_test_dependencies()
-endif()
-
-ament_package()

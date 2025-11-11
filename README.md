@@ -1,20 +1,21 @@
-# ROS2 RTP Image Receiver Node via Gstreamer
+# ROS1 RTP Image Receiver Node via Gstreamer
 
-ROS2 node for processing real-time video streams from UDP/RTP sources. This node is designed to handle YCbCr 4:2:2 format video, convert it to BGR for display, and then compress it into JPEG format. It leverages hardware acceleration (VA-API, NVIDIA, Jetson) for optimal performance.
+ROS1 Noetic node for processing real-time video streams from UDP/RTP sources. This node is designed to handle YCbCr 4:2:2 format video, convert it to BGR for display, and then compress it into JPEG format. It leverages hardware acceleration (VA-API, NVIDIA, Jetson) for optimal performance.
 
 ## 🚀 Features
 
 Hardware-accelerated video processing for high-speed performance.
 Publishes both raw and compressed image topics.
-All settings are configurable via ROS2 parameters.
+All settings are configurable via ROS1 parameters.
 Real-time performance metrics and debugging information.
 
 ## ⚡️ Topics
 
 ### Published Topics
 
-- `~/image_compressed` (`sensor_msgs/msg/CompressedImage`): The processed and JPEG-compressed images.
-- `~/image_raw` (`sensor_msgs/msg/Image`): The raw BGR images. This topic is optional and can be enabled via parameters.
+- `~/image_raw/compressed` (`sensor_msgs/CompressedImage`): The processed and JPEG-compressed images.
+- `~/image_raw` (`sensor_msgs/Image`): The raw BGR images. This topic is optional and can be enabled via parameters.
+- `~/camera_info` (`sensor_msgs/CameraInfo`): Camera calibration information.
 
 ## ⚙️ Parameters
 
@@ -32,11 +33,11 @@ Real-time performance metrics and debugging information.
 
 ### Prerequisites
 
-You'll need to install the necessary ROS2 and GStreamer dependencies.
+You'll need to install the necessary ROS1 Noetic and GStreamer dependencies.
 
 ```
-# Install ROS2 dependencies
-sudo apt install ros-humble-cv-bridge ros-humble-image-transport ros-humble-compressed-image-transport
+# Install ROS1 Noetic dependencies
+sudo apt install ros-noetic-cv-bridge ros-noetic-image-transport ros-noetic-compressed-image-transport ros-noetic-camera-info-manager
 
 # Install GStreamer dependencies
 sudo apt-get install \
@@ -52,18 +53,21 @@ sudo apt install libopencv-dev
 
 ### Build
 
-Navigate to your workspace and build the package.
+Navigate to your catkin workspace and build the package.
 
 ```
-# Source ROS2
-source /opt/ros/humble/setup.bash
+# Source ROS1 Noetic
+source /opt/ros/noetic/setup.bash
 
-#Build the package
-cd /home/comlops/rtp_example
-colcon build --packages-select gst_rtp_image_receiver
+# Build the package
+cd ~/catkin_ws
+catkin_make --pkg gst_rtp_image_receiver
+
+# Or using catkin build (if you have catkin-tools installed)
+# catkin build gst_rtp_image_receiver
 
 # Source the workspace to use the built packages
-source install/setup.bash
+source devel/setup.bash
 ```
 
 
@@ -75,32 +79,35 @@ You can run the node directly from the command line, with or without parameters.
 
 ```
 # Basic usage
-ros2 run gst_rtp_image_receiver rtp_image_receiver_node
+rosrun gst_rtp_image_receiver rtp_image_receiver_node
 
-# With custom parameters
-ros2 run gst_rtp_image_receiver rtp_image_receiver_node --ros-args \
-    -p udp_port:=5008 \
-    -p jpeg_quality:=95 \
-    -p publish_raw:=true
+# With custom parameters using rosrun
+rosrun gst_rtp_image_receiver rtp_image_receiver_node _udp_port:=5008 _jpeg_quality:=95 _publish_raw:=true
 ```
 
 ### Using launch files
 
-The node can also be launched using ROS2 launch files for easier configuration.
+The node can also be launched using ROS1 launch files for easier configuration.
 
-- Example with a Python launch file
+- Basic launch file usage
 
     ```
-    ros2 launch gst_rtp_image_receiver rtp_image_receiver.launch.py
+    roslaunch gst_rtp_image_receiver rtp_image_receiver.launch.xml
     ```
 
 - With launch file arguments
 
     ```
-    ros2 launch gst_rtp_image_receiver rtp_image_receiver.launch.py \
+    roslaunch gst_rtp_image_receiver rtp_image_receiver.launch.xml \
         udp_port:=5008 \
         publish_raw:=true \
         namespace:=my_camera
+    ```
+
+- Multi-camera setup
+
+    ```
+    roslaunch gst_rtp_image_receiver multi_camera.launch.xml
     ```
 
 ## 🔬 Testing
@@ -122,22 +129,22 @@ Use `rqt_image_view` to subscribe to the published topics and display the images
 - View compressed images
 
     ```
-    ros2 run rqt_image_view rqt_image_view
+    rosrun rqt_image_view rqt_image_view
     ```
 
 ### Monitor topics
 
-You can use standard ROS2 CLI tools to monitor the published topics.
+You can use standard ROS1 CLI tools to monitor the published topics.
 
 ```
 # List all active topics
-ros2 topic list
+rostopic list
 
 # Echo compressed image info (useful for checking header and metadata)
-ros2 topic echo /rtp_receiver/gst_rtp_image_receiver/image_compressed --no-arr
+rostopic echo /rtp_receiver/rtp_image_receiver/image_raw/compressed --noarr
 
 # Check the publishing rate
-ros2 topic hz /rtp_receiver/gst_rtp_image_receiver/image_compressed
+rostopic hz /rtp_receiver/rtp_image_receiver/image_raw/compressed
 ```
 
 ## 🏎️ Performance Tuning
@@ -167,7 +174,7 @@ Set the GST_DEBUG environment variable to get verbose GStreamer output.
 
 ```
 export GST_DEBUG=3
-ros2 run gst_rtp_image_receiver rtp_image_receiver_node
+rosrun gst_rtp_image_receiver rtp_image_receiver_node
 ```
 
 ### Check node info
@@ -175,5 +182,5 @@ ros2 run gst_rtp_image_receiver rtp_image_receiver_node
 Get detailed information about the running node, including subscribed and published topics.
 
 ```
-ros2 node info /rtp_receiver/gst_rtp_image_receiver
+rosnode info /rtp_receiver/rtp_image_receiver
 ```
