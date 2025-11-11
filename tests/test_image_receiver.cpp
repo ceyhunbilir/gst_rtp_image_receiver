@@ -1,17 +1,3 @@
-#include <gtest/gtest.h>
-#include "image_receiver.h"
-#include <atomic>
-#include <chrono>
-#include <thread>
-
-// Test fixture for ImageReceiver
-class ImageReceiverTest : public ::testing::Test {
-protected:
-    void SetUp() override {
-        // Default configuration
-        config_.udp_port = 5004;
-        config_.jpeg_quality = 90;
-        config_.enable_zero_copy = true;
     }
     
     void TearDown() override {

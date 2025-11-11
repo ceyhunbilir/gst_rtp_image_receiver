@@ -1,17 +1,3 @@
-#include "image_receiver.h"
-#include <iostream>
-#include <fstream>
-#include <csignal>
-#include <atomic>
-#include <thread>
-#include <chrono>
-
-std::atomic<bool> running(true);
-
-void signalHandler(int signal) {
-    running = false;
-}
-
 int main(int argc, char* argv[]) {
     // Set signal handler
     std::signal(SIGINT, signalHandler);
