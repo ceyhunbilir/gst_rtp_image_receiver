@@ -92,13 +92,13 @@ The node can also be launched using ROS1 launch files for easier configuration.
 - Basic launch file usage
 
     ```
-    roslaunch gst_rtp_image_receiver rtp_image_receiver.launch.xml
+    roslaunch gst_rtp_image_receiver rtp_image_receiver.launch
     ```
 
 - With launch file arguments
 
     ```
-    roslaunch gst_rtp_image_receiver rtp_image_receiver.launch.xml \
+    roslaunch gst_rtp_image_receiver rtp_image_receiver.launch \
         udp_port:=5008 \
         publish_raw:=true \
         namespace:=my_camera
@@ -107,7 +107,7 @@ The node can also be launched using ROS1 launch files for easier configuration.
 - Multi-camera setup
 
     ```
-    roslaunch gst_rtp_image_receiver multi_camera.launch.xml
+    roslaunch gst_rtp_image_receiver multi_camera.launch
     ```
 
 ## 🔬 Testing

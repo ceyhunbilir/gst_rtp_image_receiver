@@ -3,7 +3,7 @@
   <!-- Multi-camera launch file for 4 RTP image receivers -->
 
   <!-- Camera 1 -->
-  <include file="$(find gst_rtp_image_receiver)/launch/rtp_image_receiver.launch.xml">
+  <include file="$(find gst_rtp_image_receiver)/launch/rtp_image_receiver.launch">
     <arg name="namespace" value="camera1"/>
     <arg name="udp_port" value="5004"/>
     <arg name="frame_id" value="camera1"/>
@@ -15,7 +15,7 @@
   </include>
 
   <!-- Camera 2 -->
-  <include file="$(find gst_rtp_image_receiver)/launch/rtp_image_receiver.launch.xml">
+  <include file="$(find gst_rtp_image_receiver)/launch/rtp_image_receiver.launch">
     <arg name="namespace" value="camera2"/>
     <arg name="udp_port" value="5005"/>
     <arg name="frame_id" value="camera2"/>
@@ -27,7 +27,7 @@
   </include>
 
   <!-- Camera 3 -->
-  <include file="$(find gst_rtp_image_receiver)/launch/rtp_image_receiver.launch.xml">
+  <include file="$(find gst_rtp_image_receiver)/launch/rtp_image_receiver.launch">
     <arg name="namespace" value="camera3"/>
     <arg name="udp_port" value="5008"/>
     <arg name="frame_id" value="camera3"/>
@@ -39,7 +39,7 @@
   </include>
 
   <!-- Camera 4 -->
-  <include file="$(find gst_rtp_image_receiver)/launch/rtp_image_receiver.launch.xml">
+  <include file="$(find gst_rtp_image_receiver)/launch/rtp_image_receiver.launch">
     <arg name="namespace" value="camera4"/>
     <arg name="udp_port" value="5009"/>
     <arg name="frame_id" value="camera4"/>
