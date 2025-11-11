@@ -21,7 +21,7 @@
   <arg name="enable_camera16" default="false" doc="Enable camera 16"/>
 
   <!-- Camera 1 -->
-  <include file="$(find gst_rtp_image_receiver)/launch/rtp_image_receiver.launch" if="$(arg enable_camera1)">
+  <include file="$(find rtp_receiver)/launch/rtp_image_receiver.launch" if="$(arg enable_camera1)">
     <arg name="namespace" value="camera1"/>
     <arg name="udp_port" value="5004"/>
     <arg name="frame_id" value="camera1"/>
@@ -33,7 +33,7 @@
   </include>
 
   <!-- Camera 2 -->
-  <include file="$(find gst_rtp_image_receiver)/launch/rtp_image_receiver.launch" if="$(arg enable_camera2)">
+  <include file="$(find rtp_receiver)/launch/rtp_image_receiver.launch" if="$(arg enable_camera2)">
     <arg name="namespace" value="camera2"/>
     <arg name="udp_port" value="5005"/>
     <arg name="frame_id" value="camera2"/>
@@ -45,7 +45,7 @@
   </include>
 
   <!-- Camera 3 -->
-  <include file="$(find gst_rtp_image_receiver)/launch/rtp_image_receiver.launch" if="$(arg enable_camera3)">
+  <include file="$(find rtp_receiver)/launch/rtp_image_receiver.launch" if="$(arg enable_camera3)">
     <arg name="namespace" value="camera3"/>
     <arg name="udp_port" value="5006"/>
     <arg name="frame_id" value="camera3"/>
@@ -57,7 +57,7 @@
   </include>
 
   <!-- Camera 4 -->
-  <include file="$(find gst_rtp_image_receiver)/launch/rtp_image_receiver.launch" if="$(arg enable_camera4)">
+  <include file="$(find rtp_receiver)/launch/rtp_image_receiver.launch" if="$(arg enable_camera4)">
     <arg name="namespace" value="camera4"/>
     <arg name="udp_port" value="5007"/>
     <arg name="frame_id" value="camera4"/>
@@ -69,7 +69,7 @@
   </include>
 
   <!-- Camera 5 -->
-  <include file="$(find gst_rtp_image_receiver)/launch/rtp_image_receiver.launch" if="$(arg enable_camera5)">
+  <include file="$(find rtp_receiver)/launch/rtp_image_receiver.launch" if="$(arg enable_camera5)">
     <arg name="namespace" value="camera5"/>
     <arg name="udp_port" value="5008"/>
     <arg name="frame_id" value="camera5"/>
@@ -81,7 +81,7 @@
   </include>
 
   <!-- Camera 6 -->
-  <include file="$(find gst_rtp_image_receiver)/launch/rtp_image_receiver.launch" if="$(arg enable_camera6)">
+  <include file="$(find rtp_receiver)/launch/rtp_image_receiver.launch" if="$(arg enable_camera6)">
     <arg name="namespace" value="camera6"/>
     <arg name="udp_port" value="5009"/>
     <arg name="frame_id" value="camera6"/>
@@ -93,7 +93,7 @@
   </include>
 
   <!-- Camera 7 -->
-  <include file="$(find gst_rtp_image_receiver)/launch/rtp_image_receiver.launch" if="$(arg enable_camera7)">
+  <include file="$(find rtp_receiver)/launch/rtp_image_receiver.launch" if="$(arg enable_camera7)">
     <arg name="namespace" value="camera7"/>
     <arg name="udp_port" value="5010"/>
     <arg name="frame_id" value="camera7"/>
@@ -105,7 +105,7 @@
   </include>
 
   <!-- Camera 8 -->
-  <include file="$(find gst_rtp_image_receiver)/launch/rtp_image_receiver.launch" if="$(arg enable_camera8)">
+  <include file="$(find rtp_receiver)/launch/rtp_image_receiver.launch" if="$(arg enable_camera8)">
     <arg name="namespace" value="camera8"/>
     <arg name="udp_port" value="5011"/>
     <arg name="frame_id" value="camera8"/>
@@ -117,7 +117,7 @@
   </include>
 
   <!-- Camera 9 -->
-  <include file="$(find gst_rtp_image_receiver)/launch/rtp_image_receiver.launch" if="$(arg enable_camera9)">
+  <include file="$(find rtp_receiver)/launch/rtp_image_receiver.launch" if="$(arg enable_camera9)">
     <arg name="namespace" value="camera9"/>
     <arg name="udp_port" value="5012"/>
     <arg name="frame_id" value="camera9"/>
@@ -129,7 +129,7 @@
   </include>
 
   <!-- Camera 10 -->
-  <include file="$(find gst_rtp_image_receiver)/launch/rtp_image_receiver.launch" if="$(arg enable_camera10)">
+  <include file="$(find rtp_receiver)/launch/rtp_image_receiver.launch" if="$(arg enable_camera10)">
     <arg name="namespace" value="camera10"/>
     <arg name="udp_port" value="5013"/>
     <arg name="frame_id" value="camera10"/>
@@ -141,7 +141,7 @@
   </include>
 
   <!-- Camera 11 -->
-  <include file="$(find gst_rtp_image_receiver)/launch/rtp_image_receiver.launch" if="$(arg enable_camera11)">
+  <include file="$(find rtp_receiver)/launch/rtp_image_receiver.launch" if="$(arg enable_camera11)">
     <arg name="namespace" value="camera11"/>
     <arg name="udp_port" value="5014"/>
     <arg name="frame_id" value="camera11"/>
@@ -153,7 +153,7 @@
   </include>
 
   <!-- Camera 12 -->
-  <include file="$(find gst_rtp_image_receiver)/launch/rtp_image_receiver.launch" if="$(arg enable_camera12)">
+  <include file="$(find rtp_receiver)/launch/rtp_image_receiver.launch" if="$(arg enable_camera12)">
     <arg name="namespace" value="camera12"/>
     <arg name="udp_port" value="5015"/>
     <arg name="frame_id" value="camera12"/>
@@ -165,7 +165,7 @@
   </include>
 
   <!-- Camera 13 -->
-  <include file="$(find gst_rtp_image_receiver)/launch/rtp_image_receiver.launch" if="$(arg enable_camera13)">
+  <include file="$(find rtp_receiver)/launch/rtp_image_receiver.launch" if="$(arg enable_camera13)">
     <arg name="namespace" value="camera13"/>
     <arg name="udp_port" value="5016"/>
     <arg name="frame_id" value="camera13"/>
@@ -177,7 +177,7 @@
   </include>
 
   <!-- Camera 14 -->
-  <include file="$(find gst_rtp_image_receiver)/launch/rtp_image_receiver.launch" if="$(arg enable_camera14)">
+  <include file="$(find rtp_receiver)/launch/rtp_image_receiver.launch" if="$(arg enable_camera14)">
     <arg name="namespace" value="camera14"/>
     <arg name="udp_port" value="5017"/>
     <arg name="frame_id" value="camera14"/>
@@ -189,7 +189,7 @@
   </include>
 
   <!-- Camera 15 -->
-  <include file="$(find gst_rtp_image_receiver)/launch/rtp_image_receiver.launch" if="$(arg enable_camera15)">
+  <include file="$(find rtp_receiver)/launch/rtp_image_receiver.launch" if="$(arg enable_camera15)">
     <arg name="namespace" value="camera15"/>
     <arg name="udp_port" value="5018"/>
     <arg name="frame_id" value="camera15"/>
@@ -201,7 +201,7 @@
   </include>
 
   <!-- Camera 16 -->
-  <include file="$(find gst_rtp_image_receiver)/launch/rtp_image_receiver.launch" if="$(arg enable_camera16)">
+  <include file="$(find rtp_receiver)/launch/rtp_image_receiver.launch" if="$(arg enable_camera16)">
     <arg name="namespace" value="camera16"/>
     <arg name="udp_port" value="5019"/>
     <arg name="frame_id" value="camera16"/>

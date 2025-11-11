@@ -9,7 +9,7 @@
   <arg name="publish_compressed" default="true" doc="Publish compressed images"/>
   <arg name="frame_id" default="camera" doc="Frame ID for published images"/>
   <arg name="namespace" default="rtp_receiver" doc="Namespace for the node"/>
-  <arg name="camera_info_url" default="package://gst_rtp_image_receiver/config/camera_info.yaml" doc="URL for camera calibration file"/>
+  <arg name="camera_info_url" default="package://rtp_receiver/config/camera_info.yaml" doc="URL for camera calibration file"/>
 
   <!-- Camera-specific parameters based on camera_type -->
   <!-- C1: 1920x1280, buffer = 1920 x 1280 x 2 = 4,915,200 -->
@@ -20,7 +20,7 @@
 
   <!-- RTP Image Receiver Node -->
   <group ns="$(arg namespace)">
-    <node pkg="gst_rtp_image_receiver" type="rtp_image_receiver_node"
+    <node pkg="rtp_receiver" type="rtp_image_receiver_node"
           name="rtp_image_receiver" output="screen">
       <param name="udp_port" value="$(arg udp_port)"/>
       <param name="jpeg_quality" value="$(arg jpeg_quality)"/>
