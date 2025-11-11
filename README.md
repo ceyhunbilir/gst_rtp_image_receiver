@@ -64,10 +64,10 @@ source /opt/ros/noetic/setup.bash
 
 # Build the package using catkin build
 cd ~/catkin_ws
-catkin build gst_rtp_image_receiver
+catkin build rtp_receiver
 
 # Or using catkin_make
-# catkin_make --pkg gst_rtp_image_receiver
+# catkin_make --pkg rtp_receiver
 
 # Source the workspace to use the built packages
 source devel/setup.bash
@@ -82,10 +82,10 @@ You can run the node directly from the command line, with or without parameters.
 
 ```
 # Basic usage
-rosrun gst_rtp_image_receiver rtp_image_receiver_node
+rosrun rtp_receiver rtp_image_receiver_node
 
 # With custom parameters using rosrun
-rosrun gst_rtp_image_receiver rtp_image_receiver_node _udp_port:=5008 _jpeg_quality:=95 _publish_raw:=true
+rosrun rtp_receiver rtp_image_receiver_node _udp_port:=5008 _jpeg_quality:=95 _publish_raw:=true
 ```
 
 ### Using launch files
@@ -95,20 +95,20 @@ The node can also be launched using ROS1 launch files for easier configuration.
 - Basic launch file usage (C1 camera by default)
 
     ```
-    roslaunch gst_rtp_image_receiver rtp_image_receiver.launch
+    roslaunch rtp_receiver rtp_image_receiver.launch
     ```
 
 - Launch with C2 camera type
 
     ```
     # C2 camera: 2880x1860 resolution, buffer_size automatically set to 10,713,600
-    roslaunch gst_rtp_image_receiver rtp_image_receiver.launch camera_type:=C2
+    roslaunch rtp_receiver rtp_image_receiver.launch camera_type:=C2
     ```
 
 - With additional launch file arguments
 
     ```
-    roslaunch gst_rtp_image_receiver rtp_image_receiver.launch \
+    roslaunch rtp_receiver rtp_image_receiver.launch \
         camera_type:=C1 \
         udp_port:=5008 \
         publish_raw:=true \
@@ -119,17 +119,17 @@ The node can also be launched using ROS1 launch files for easier configuration.
 
     ```
     # Launch with default settings (cameras 1-4 enabled, 5-16 disabled)
-    roslaunch gst_rtp_image_receiver multi_camera.launch
+    roslaunch rtp_receiver multi_camera.launch
 
     # Enable specific cameras
-    roslaunch gst_rtp_image_receiver multi_camera.launch \
+    roslaunch rtp_receiver multi_camera.launch \
         enable_camera1:=true \
         enable_camera2:=true \
         enable_camera5:=true \
         enable_camera8:=true
 
     # Launch all 16 cameras
-    roslaunch gst_rtp_image_receiver multi_camera.launch \
+    roslaunch rtp_receiver multi_camera.launch \
         enable_camera1:=true enable_camera2:=true enable_camera3:=true enable_camera4:=true \
         enable_camera5:=true enable_camera6:=true enable_camera7:=true enable_camera8:=true \
         enable_camera9:=true enable_camera10:=true enable_camera11:=true enable_camera12:=true \
@@ -205,7 +205,7 @@ Set the GST_DEBUG environment variable to get verbose GStreamer output.
 
 ```
 export GST_DEBUG=3
-rosrun gst_rtp_image_receiver rtp_image_receiver_node
+rosrun rtp_receiver rtp_image_receiver_node
 ```
 
 ### Check node info

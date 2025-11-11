@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>gst_rtp_image_receiver</name>
+  <name>rtp_receiver</name>
   <version>1.0.0</version>
   <description>ROS1 node for real-time image processing from RTP/UDP streams</description>
   <maintainer email="ceyhun.bilir@adastec.com">Ahmet Ceyhun Bilir</maintainer>

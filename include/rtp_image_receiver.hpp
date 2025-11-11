@@ -1,5 +1,5 @@
-#ifndef GST_RTP_IMAGE_RECEIVER_INCLUDE_RTP_IMAGE_RECEIVER_HPP_
-#define GST_RTP_IMAGE_RECEIVER_INCLUDE_RTP_IMAGE_RECEIVER_HPP_
+#ifndef rtp_receiver_INCLUDE_RTP_IMAGE_RECEIVER_HPP_
+#define rtp_receiver_INCLUDE_RTP_IMAGE_RECEIVER_HPP_
 
 #include <memory>
 #include <string>
@@ -84,4 +84,4 @@ class RtpImageReceiverNode {
 
 }  // namespace rtp_image_receiver
 
-#endif  // GST_RTP_IMAGE_RECEIVER_INCLUDE_RTP_IMAGE_RECEIVER_HPP_
+#endif  // rtp_receiver_INCLUDE_RTP_IMAGE_RECEIVER_HPP_
