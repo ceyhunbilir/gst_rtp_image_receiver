@@ -59,12 +59,12 @@ Navigate to your catkin workspace and build the package.
 # Source ROS1 Noetic
 source /opt/ros/noetic/setup.bash
 
-# Build the package
+# Build the package using catkin build
 cd ~/catkin_ws
-catkin_make --pkg gst_rtp_image_receiver
+catkin build gst_rtp_image_receiver
 
-# Or using catkin build (if you have catkin-tools installed)
-# catkin build gst_rtp_image_receiver
+# Or using catkin_make
+# catkin_make --pkg gst_rtp_image_receiver
 
 # Source the workspace to use the built packages
 source devel/setup.bash
