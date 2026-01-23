@@ -90,14 +90,16 @@ public:
                 
         // create publishers
         if (publish_raw_) {
-            raw_pub_ = image_transport::create_publisher(this, "~/image_raw");
+            RCLCPP_INFO(this->get_logger(), "Create  raw image publisher");
+            raw_pub_ = this->create_publisher<sensor_msgs::msg::Image>("~/image_raw", 10);
         }
         if (publish_compressed_) {
+            RCLCPP_INFO(this->get_logger(), "Create compressed image publisher");
             compressed_pub_ = this->create_publisher<sensor_msgs::msg::CompressedImage>(
                 "~/image_raw/compressed", 10);
         }
         camera_info_pub_ = this->create_publisher<sensor_msgs::msg::CameraInfo>(
-            "~/camera_info", 10);
+            "camera_info", 10);
         
         // Initialize camera info manager
         camera_info_manager_ = std::make_shared<camera_info_manager::CameraInfoManager>(this, frame_id_);
@@ -171,14 +173,14 @@ private:
 
     // Raw image publishing helper
     void publishRaw(const uint8_t* data, size_t size, const std_msgs::msg::Header& header) {
-        if (publish_raw_ && raw_pub_.getNumSubscribers() > 0) { 
+        if (publish_raw_ && raw_pub_->get_subscription_count() > 0) { 
             cv::Mat bgr_image(config_.height, config_.width, CV_8UC3, (void*)data);
 
             sensor_msgs::msg::Image::SharedPtr image_msg = 
                 cv_bridge::CvImage(header, "bgr8", bgr_image).toImageMsg();
             RCLCPP_INFO(this->get_logger(), "Publish Image topic          : %09u.%09u", header.stamp.sec, header.stamp.nanosec);
 
-            raw_pub_.publish(image_msg);
+            raw_pub_->publish(*image_msg);
         }
     }
 
@@ -252,7 +254,7 @@ private:
     std::unique_ptr<ImageReceiver> receiver_;
     rclcpp::Publisher<sensor_msgs::msg::CompressedImage>::SharedPtr compressed_pub_;
     rclcpp::Publisher<sensor_msgs::msg::CameraInfo>::SharedPtr camera_info_pub_;
-    image_transport::Publisher raw_pub_;
+    rclcpp::Publisher<sensor_msgs::msg::Image>::SharedPtr raw_pub_;
     rclcpp::TimerBase::SharedPtr stats_timer_;
     std::shared_ptr<camera_info_manager::CameraInfoManager> camera_info_manager_;
     
