@@ -24,10 +24,10 @@
     <arg name="publish_raw" value="false"/>
     <arg name="publish_compressed" value="true"/>
   </include>
-  
+
   <include file="$(find-pkg-share gst_rtp_image_receiver)/launch/rtp_image_receiver.launch.xml">
     <arg name="namespace" value="camera3"/>
-    <arg name="udp_port" value="5008"/>
+    <arg name="udp_port" value="5006"/>
     <arg name="frame_id" value="camera3"/>
     <arg name="width" value="1920"/>
     <arg name="height" value="1280"/>
@@ -36,10 +36,44 @@
     <arg name="publish_compressed" value="true"/>
   </include>
   
+
   <include file="$(find-pkg-share gst_rtp_image_receiver)/launch/rtp_image_receiver.launch.xml">
     <arg name="namespace" value="camera4"/>
-    <arg name="udp_port" value="5009"/>
+    <arg name="udp_port" value="5007"/>
     <arg name="frame_id" value="camera4"/>
+    <arg name="width" value="1920"/>
+    <arg name="height" value="1280"/>
+    <arg name="jpeg_quality" value="90"/>
+    <arg name="publish_raw" value="false"/>
+    <arg name="publish_compressed" value="true"/>
+  </include>
+  
+  <include file="$(find-pkg-share gst_rtp_image_receiver)/launch/rtp_image_receiver.launch.xml">
+    <arg name="namespace" value="camera5"/>
+    <arg name="udp_port" value="5008"/>
+    <arg name="frame_id" value="camera5"/>
+    <arg name="width" value="1920"/>
+    <arg name="height" value="1280"/>
+    <arg name="jpeg_quality" value="90"/>
+    <arg name="publish_raw" value="false"/>
+    <arg name="publish_compressed" value="true"/>
+  </include>
+  
+  <include file="$(find-pkg-share gst_rtp_image_receiver)/launch/rtp_image_receiver.launch.xml">
+    <arg name="namespace" value="camera6"/>
+    <arg name="udp_port" value="5009"/>
+    <arg name="frame_id" value="camera6"/>
+    <arg name="width" value="1920"/>
+    <arg name="height" value="1280"/>
+    <arg name="jpeg_quality" value="90"/>
+    <arg name="publish_raw" value="false"/>
+    <arg name="publish_compressed" value="true"/>
+  </include>
+
+  <include file="$(find-pkg-share gst_rtp_image_receiver)/launch/rtp_image_receiver.launch.xml">
+    <arg name="namespace" value="camera7"/>
+    <arg name="udp_port" value="5010"/>
+    <arg name="frame_id" value="camera7"/>
     <arg name="width" value="1920"/>
     <arg name="height" value="1280"/>
     <arg name="jpeg_quality" value="90"/>
