@@ -24,10 +24,10 @@
 #include <opencv2/opencv.hpp>
 #include <chrono>
 
-#if RCL_VERSION_MAJOR <= 6
-  #include <cv_bridge/cv_bridge.h>
-#else
+#if __has_include(<cv_bridge/cv_bridge.hpp>)
   #include <cv_bridge/cv_bridge.hpp>
+#else
+  #include <cv_bridge/cv_bridge.h>
 #endif
   
 
